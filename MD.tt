@@ -1,4 +1,4 @@
-﻿<#@ template language="C#" debug="true" hostspecific="true"#>
+<#@ template language="C#" debug="true" hostspecific="true"#>
 <#@ import namespace="System.Text.RegularExpressions" #>
 <#@ import namespace="System.IO" #>
 <#@ import namespace="System.Diagnostics" #>
@@ -18,8 +18,8 @@ CodeGenerationTools code = new CodeGenerationTools(this);
 // object for creating entity information
 MetadataLoader loader = new MetadataLoader(this);
  
-// TODO:  修改為自己環境參數  edmx檔案 位置 
-string inputFile = @"c:\xxxx\xxx.edmx" ;
+// TODO: NEED TO PROVIDE EDMX FILE LOCATION  修改EDMX 路徑
+string inputFile = @"C:\11\web\EIP\EIP\EIP\Model1.edmx" ;
 
 // File generation suffix
 string suffix = "Metadata";
@@ -180,19 +180,30 @@ void WriteStringLengthAttribute(EdmProperty edmProperty , string name_desc ) {
 void WriteHeader(EntityFrameworkTemplateFileManager fileManager, params string[] extraUsings)
 {
     fileManager.StartHeader();
+
 #>
-using System; 
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
+
 <#=String.Join(String.Empty, extraUsings.Select(u => "using " + u + 
-                     ";" + Environment.NewLine).ToArray())#>
+                     ";" + Environment.NewLine).ToArray())
+				 
+#>
+
 <#+ 
     fileManager.EndBlock();
 }
 
+
+
+
 // Add namespace
 void BeginNamespace(string namespaceName, CodeGenerationTools code)
 {
+
+	WriteLine("using System;");
+	WriteLine("using System.ComponentModel;");
+	WriteLine("using System.ComponentModel.DataAnnotations;");
+	 
+	
     // Generate region
     CodeRegion region = new CodeRegion(this);
 
@@ -266,9 +277,9 @@ return Regex.Replace(value,
 <#+
 	public class config
 	{
-		// TODO 修改為自己環境參數
-		public static readonly string ConnectionString="Data Source=XXXX;Initial Catalog=XXXX;Persist Security Info=True;User Id=XXX;Password=XXX";
-		
-		
+		//修改 SQL  連線字串		
+		public static readonly string ConnectionString="Data Source=XXXXXXXXXX;Initial Catalog=XXXXXXX;Persist Security Info=True;User Id=XXXXXXX;Password=XXXXXXX";
+		public static readonly string DbDatabase="XXXXXXXXXX";
+		public static readonly string TableName="XXXXXXX";
 	}
 #>
